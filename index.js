@@ -1,27 +1,29 @@
-// var pngIn = process.argv.slice(2);
-
 var Jimp = require('jimp');
 var fs = require('fs');
 
-const Read = (dirname, onFileContent, onError) => {
-  fs.readdir(dirname, (err, filenames) => {
+// Read input files
+fs.readdir(`./input`, (err, filenames) => {
+    
+    // Return if input error
     if (err) {
-      onError(err);
+      console.log(`Error on load input directory:`+err);
       return;
     }
-  filenames.forEach((filename) => {
-    Jimp.read(filename, (err, lenna) => {
-      if (err) throw err;
-      var filenew = str(filename+'.jpg');
-      lenna.write(filenew);
+    
+    // Actions to preform for each input file
+    filenames.forEach((filename) => {
+        
+        // Load file
+        Jimp.read(`./input/`+filename, (err, convert) => {
+            
+            // Return if error
+            if (err) {
+                console.log(`Error on load file`+filename+err);
+                return;
+            }
+            
+            // Save to ouput folder (as FILENAME.png.jpg)
+            convert.write(`./output/`+filename+`.jpg`)
+      })
     })
   })
-  })
-}
-
-//Jimp.read('image.png', (err, lenna) => {
-// if (err) throw err;
-//  lenna
-//    .quality(100)
-//   .write('image.jpg');
-//})
